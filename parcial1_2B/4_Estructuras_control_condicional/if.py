@@ -6,7 +6,7 @@
 #3.- if anidado
 #4.-if con el elif
 
-#Ejemplo 1 if
+#Ejemplo 1 if simple
 color="rojo"
 
 if color=="rojo":

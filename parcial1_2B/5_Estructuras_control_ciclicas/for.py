@@ -1,6 +1,6 @@
 #El for es una estructura de control repetitiva o ciclica que funciona con interacciones X veces deacuerdo a los valores numericos que contega
 
-#intaxi:
+#Sintaxi:
 
 #for variable in elemento_iterable(list,range,etc):
 #bloqueo instrucciones
@@ -17,7 +17,7 @@ for contador in range(1,6):
     suma+=contador
     print(f"La suma es:{suma}")
 
-#Ejemplo 3 Crear un programa que solicite un numero entero y apartir de este numero genere e mprima la tabla de multiplicar correspondiente
+#Ejemplo 3 Crear un programa que solicite un numero entero y apartir de este numero genere e imprima la tabla de multiplicar correspondiente
 
 numero=int(input("Ingresa un numero:"))
 for i in range(1,11):
