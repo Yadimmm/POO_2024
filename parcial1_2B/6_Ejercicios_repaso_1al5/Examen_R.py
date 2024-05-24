@@ -19,3 +19,4 @@ while True:
  salir=str(input("Desea agregar otro trabajador (Si/No):"))
  if salir == "si":
     break
+
