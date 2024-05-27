@@ -57,18 +57,39 @@ n2=int(input("Numero #2:"))
 resultado=suma(n1,n2)
 print(f"La suma es: {resultado}")
 #Ejemplo 6 Crear un programa que solicite atravez de una funcion la siguiente informacion nombre del paciente,edad,estatura,tipo de sangre.Utilizar una funcion que reciba parametros y regrese valor
+#1 Funcion no tiene parametros y no regresa valor
+def paciente():
+    nombre=input("Nombre del paciente:")
+    edad=int(input("Edad del paciente:"))
+    estatura=float(("Ingresa la estatura:"))
+    sangre=input(input("Tipo de sangre"))
+    print(f"Nombre del paciente {nombre} \n Edad:{edad} \n Estatura: {estatura} \n Tipo de sangre: {sangre}")
+
+for i in range(1,4):
+    paciente()
+    
+#2 Funcio no tine parametros y regresa valor
+def paciente2():
+    nombre=input("Nombre del paciente:")
+    edad=int(input("Edad del paciente:"))
+    estatura=float(("Ingresa la estatura:"))
+    sangre=input(input("Tipo de sangre"))
+    return f"Nombre del paciente {nombre} \n Edad:{edad} \n Estatura: {estatura} \n Tipo de sangre: {sangre}"
+
+print(paciente2())
+
 def info():
 
-    nombre = input("Ingrese el nombre del paciente: ")
-    edad = int(input("Ingrese la edad del paciente: "))
-    estatura = float(input("Ingrese la estatura del paciente (en metros): "))
-    tipo_sangre = input("Ingrese el tipo de sangre del paciente: ")
+    nombre=input("Ingrese el nombre del paciente: ")
+    edad=int(input("Ingrese la edad del paciente: "))
+    estatura=float(input("Ingrese la estatura del paciente (en metros): "))
+    tipo_sangre=input("Ingrese el tipo de sangre del paciente: ")
 
-    informacion = (nombre, edad, estatura, tipo_sangre)
+    informacion=(nombre, edad, estatura, tipo_sangre)
 
     return informacion
 
-datos_paciente = info()
+datos_paciente=info()
 
 print("\nInformación del paciente:")
 print(f"Nombre: {datos_paciente[0]}")
