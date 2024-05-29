@@ -78,6 +78,26 @@ def paciente2():
 
 print(paciente2())
 
+#3 Funcion tiene parametros y no regresa valor
+def paciente3(nom,ed,est,sang):
+    return f"Nombre del paciente {nombre} \n Edad:{edad} \n Estatura: {estatura} \n Tipo de sangre: {sangre}"
+
+nombre=input("Nombre del paciente:")
+edad=int(input("Edad del paciente:"))
+estatura=float(("Ingresa la estatura:"))
+sangre=input(input("Tipo de sangre"))
+paciente3(nombre,edad,estatura,sangre)
+
+#4 Funcion tiene parametros y regresa valor
+def paciente3(nom,ed,est,sang):
+    return f"Nombre del paciente {nombre} \n Edad:{edad} \n Estatura: {estatura} \n Tipo de sangre: {sangre}"
+
+nombre=input("Nombre del paciente:")
+edad=int(input("Edad del paciente:"))
+estatura=float(("Ingresa la estatura:"))
+sangre=input(input("Tipo de sangre"))
+print(paciente3(nombre,edad,estatura,sangre))
+
 def info():
 
     nombre=input("Ingrese el nombre del paciente: ")
