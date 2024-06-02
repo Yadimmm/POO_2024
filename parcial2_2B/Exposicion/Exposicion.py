@@ -1,28 +1,23 @@
-import datetime
-x=datetime.datetime.now()
-y=datetime.datetime(2020,5,17)
-print(y.strftime("%B"))
-print(y)
-print(x)
-print(x.year)
-print(x.strftime("%A"))
-print(y.strftime("%w"))
-print(x.strftime("%H"))
-print(x.strftime("%I"))
-print(x.strftime("%p"))
-print(x.strftime("%M"))
-print(x.strftime("%S"))
-print(x.strftime("%f"))
-print(x.strftime("%z"))
-print(x.strftime("%Z"))
-print(x.strftime("%j"))
-print(x.strftime("%U"))
-print(x.strftime("%W"))
-print(x.strftime("%c"))
-print(x.strftime("%C"))
-print(x.strftime("%x"))
-print(x.strftime("%X"))
-print(x.strftime("%%"))
-print(x.strftime("%G"))
-print(x.strftime("%u"))
-print(x.strftime("%V"))
+from datetime import datetime,timedelta
+def obtener_fecha_cumple():
+    while True:
+        try:
+            fecha_str=input("ingresemos la fecha de cumpleanos (dd/mm/yyyy):")
+            fecha_cumple=datetime.strptime(fecha_str,"%d/%m/%Y")
+            return fecha_cumple
+        except ValueError:print("Formato incorrecto")
+def calcular_dais_faltantes(fecha_cumple):
+    hoy=datetime.now()
+    fecha_cumple_anio=fecha_cumple.replace(year=hoy.year)
+    if fecha_cumple_anio<hoy:
+        fecha_cumple_anio=fecha_cumple_anio.replace(year=hoy.year+1)
+        dias_faltantes=(fecha_cumple_anio-hoy).days
+        return dias_faltantes
+def main():
+    fecha_cumple=obtener_fecha_cumple()
+    dias_faltantes=calcular_dais_faltantes(fecha_cumple)
+    if dias_faltantes==0:
+        print("HOY ES TU CUMPLEANOS")
+    else:print(f"Faltan {dias_faltantes} dias para tu cumpleanos")
+if __name__=="__main__":
+    main()
