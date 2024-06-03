@@ -1,23 +1,29 @@
-from datetime import datetime,timedelta
+from datetime import datetime
+
 def obtener_fecha_cumple():
     while True:
         try:
-            fecha_str=input("ingresemos la fecha de cumpleanos (dd/mm/yyyy):")
-            fecha_cumple=datetime.strptime(fecha_str,"%d/%m/%Y")
+            fecha_str = input("INGRESA TU FECHA DE CUMPLEANIOS (DD/MM/YYYY)")
+            fecha_cumple = datetime.strptime(fecha_str, "%d/%m/%Y")
             return fecha_cumple
-        except ValueError:print("Formato incorrecto")
-def calcular_dais_faltantes(fecha_cumple):
-    hoy=datetime.now()
-    fecha_cumple_anio=fecha_cumple.replace(year=hoy.year)
-    if fecha_cumple_anio<hoy:
-        fecha_cumple_anio=fecha_cumple_anio.replace(year=hoy.year+1)
-        dias_faltantes=(fecha_cumple_anio-hoy).days
-        return dias_faltantes
+        except ValueError:
+            print("FORMATO INCORRECTO")
+
+def calcular_dias_faltantes(fecha_cumple):
+    hoy = datetime.now()
+    dias_faltantes = (fecha_cumple - hoy).days
+    return dias_faltantes
+
 def main():
-    fecha_cumple=obtener_fecha_cumple()
-    dias_faltantes=calcular_dais_faltantes(fecha_cumple)
-    if dias_faltantes==0:
-        print("HOY ES TU CUMPLEANOS")
-    else:print(f"Faltan {dias_faltantes} dias para tu cumpleanos")
-if __name__=="__main__":
+    fecha_cumple = obtener_fecha_cumple()
+    dias_faltantes = calcular_dias_faltantes(fecha_cumple)
+    
+    if dias_faltantes == 0:
+        print("HOY ES TU CUMPLEANIOS")
+    elif dias_faltantes > 0:
+        print(f"FALTAN {dias_faltantes} DIAS PARA TU CUMPLEANIOS")
+    else:
+        print(f"TU CUMPLEANIOS YA PASO")
+
+if __name__ == "__main__":
     main()

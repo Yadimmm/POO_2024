@@ -25,11 +25,28 @@ print(tamanio)
 while numero<=len(numeros)-1:
     print(numeros[numero])
     numero+=1
-#Ejemplo 2 Crear una lista de palabras y psoteriormente buscar la coincidencia de una palabra
-palabras=['hola','como','estas','mamaica']
-palabra_buscar=input("INGRESA LA PALABRA A BUSCAR:")
-for i in palabras:
- if i==palabra_buscar:
-    print(f"{palabra_buscar} está en la lista y se encontro en la posicion {palabras.index()}.")
- else:
-    print(f"{palabra_buscar} no está en la lista.")
+#Ejemplo2
+#crear una lista de palabras, posteriormente buscar la coincidencia de una palabra
+palabra = ["hola","utd", "como", "estas", "ok", "ok", "naranja"]
+palabra_buscar = input("inserta palabra a buscar: ")
+
+if palabra_buscar in palabra:
+    for i, p in enumerate(palabra):
+        if p == palabra_buscar:
+            print(f"Encontré la palabra en la posición {i}")
+else:
+    print("No encontré la palabra en la lista")
+#EJEMPLO # AGREGAR Y ELIMINAR ELEMENTOS DE UNA LISTA
+#OS.SYSTEM("CLEAR")
+numeros=[23,24,23]
+print(numeros)
+#agregar un elemento
+numeros.append(100)
+print(numeros)
+numeros.insert(3,200)
+print(numeros)
+#Eliminar un elemento
+numeros.remove(100)#indicar el elemento a borrar
+print(numeros)
+numeros.pop(2)#Indicar la posicion del elemento a borrar
+print(numeros)
