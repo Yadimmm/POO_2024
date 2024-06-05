@@ -88,6 +88,7 @@ Permite miembors duplicados.
 #NOTAS:
 #1.-UTILIZAR FUNCIONES Y MANDAR LLAMAR DESDE OTRO ARCHIVO
 #2.-UTILIZAR LSITAS PARA ALMACENAR LOS NOMBRES DE LAS PELICULAS
+'''
 from peliculas_funciones import *
 def menu():
  print("\n\t..::: PELICULAS PIRATAS 4K  :::...\n 1.-AGREGAR PELICULAS\n 2.-REMOVER PELICULA\n 3.-CONSULTAR CATALOGO\n 4.- SALIR")
@@ -105,6 +106,43 @@ while True:
  elif opcion=="3":
   consultar_pelicula()
  elif opcion=="4":
-  print("HASTA LUEGO")
+  print("PTM NO ME SALE")
+  break
  else:
   print("LA OPCION QUE INGRESASTE NO EXISTE")
+  '''
+import os
+import msvcrt
+from peliculas_funciones import *
+
+def mostrar_menu():
+    print("\n\t....::::PeLiCuLaS PiRaTaS 4k::::....\n1. Agregar película\n2. Remover película\n3. Consultar películas\n4. Salir")
+def pausa():
+    print("\nPresiona una tecla para continuar...")
+    msvcrt.getch()  # Espera a que el usuario toque una tecla
+
+if __name__ == "__main__":
+    while True:
+        mostrar_menu()
+        opcion = input("QUE OPCION ELEGIRAS HOY: ")
+
+        if opcion == "1":
+            os.system("cls")  # Limpia la pantalla (Windows)
+            nombre_pelicula = input("Ingresa el nombre de la película: ")
+            agregar_pelicula(nombre_pelicula)
+            pausa()
+        elif opcion == "2":
+            os.system("cls")  # Limpia la pantalla (Windows)
+            nombre_pelicula = input("Ingresa el nombre de la película a remover: ")
+            remover_pelicula(nombre_pelicula)
+            pausa()
+        elif opcion == "3":
+            os.system("cls")  # Limpia la pantalla (Windows)
+            consultar_peliculas()
+            pausa()
+        elif opcion == "4":
+            print("¡Hasta luego!")
+            break
+        else:
+            print("Opción inválida. Inténtalo nuevamente.")
+            pausa()
