@@ -37,3 +37,18 @@ def consultar_peliculas():
             print(f"- {pelicula}")
     else:
         print("No hay películas en la lista.")
+
+def actualizar_pelicula(nombre_actual, nombre_nuevo):
+    if nombre_actual in lista_peliculas:
+        indice = lista_peliculas.index(nombre_actual)
+        lista_peliculas[indice] = nombre_nuevo
+        print(f"La película '{nombre_actual}' ha sido actualizada a '{nombre_nuevo}'.")
+    else:
+        print(f"La película '{nombre_actual}' no está en la lista.")
+
+def buscar_pelicula(nombre):
+    if nombre in lista_peliculas:
+        indice = lista_peliculas.index(nombre)
+        print(f"La película '{nombre}' está en la posición {indice}.")
+    else:
+        print(f"La película '{nombre}' no está en la lista.")
