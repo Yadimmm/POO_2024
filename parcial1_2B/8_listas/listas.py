@@ -126,27 +126,27 @@ if __name__ == "__main__":
         mostrar_menu()
         opcion = input("QUE OPCION ELEGIRAS HOY: ")
         if opcion == "1":
-            os.system("cls")  # Limpia la pantalla (Windows)
+            os.system("cls")
             nombre_pelicula = input("Ingresa el nombre de la película: ")
             agregar_pelicula(nombre_pelicula)
             pausa()
         elif opcion == "2":
-            os.system("cls")  # Limpia la pantalla (Windows)
+            os.system("cls")
             nombre_pelicula = input("Ingresa el nombre de la película a remover: ")
             remover_pelicula(nombre_pelicula)
             pausa()
         elif opcion == "3":
-            os.system("cls")  # Limpia la pantalla (Windows)
+            os.system("cls")
             consultar_peliculas()
             pausa()
         elif opcion == "4":
-            os.system("cls")  # Limpia la pantalla (Windows)
+            os.system("cls")
             nombre_actual = input("Ingresa el nombre de la película a actualizar: ")
             nombre_nuevo = input("Ingresa el nuevo nombre de la película: ")
             actualizar_pelicula(nombre_actual, nombre_nuevo)
             pausa()
         elif opcion == "5":
-            os.system("cls")  # Limpia la pantalla (Windows)
+            os.system("cls")
             nombre_buscar = input("Ingresa el nombre de la película a buscar: ")
             buscar_pelicula(nombre_buscar)
             pausa()
