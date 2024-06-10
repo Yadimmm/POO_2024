@@ -117,10 +117,10 @@ print(f"Edad: {datos_paciente[1]} años")
 print(f"Estatura: {datos_paciente[2]} metros")
 print(f"Tipo de sangre: {datos_paciente[3]}")
 
-"""
+'''
 def saludar(nombre):
     print(f"Hola, {nombre}!")
 
 # Llamada a la función
 saludar("Paulina")
-"""
+'''

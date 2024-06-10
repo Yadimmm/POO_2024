@@ -36,7 +36,7 @@ print(alumnos)
 alumnos.pop("semestres")
 print(alumnos)
 
-#Recorrer el dicccionario
+#Recorrer el dicccionario.
 
 for i in alumnos:
     print(f"{i} : {alumnos[i]}")

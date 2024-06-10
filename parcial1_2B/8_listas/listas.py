@@ -88,7 +88,7 @@ Permite miembors duplicados.
 #NOTAS:
 #1.-UTILIZAR FUNCIONES Y MANDAR LLAMAR DESDE OTRO ARCHIVO
 #2.-UTILIZAR LSITAS PARA ALMACENAR LOS NOMBRES DE LAS PELICULAS
-'''
+''''
 from peliculas_funciones import *
 def menu():
  print("\n\t..::: PELICULAS PIRATAS 4K  :::...\n 1.-AGREGAR PELICULAS\n 2.-REMOVER PELICULA\n 3.-CONSULTAR CATALOGO\n 4.- SALIR")
@@ -110,7 +110,7 @@ while True:
   break
  else:
   print("LA OPCION QUE INGRESASTE NO EXISTE")
-  '''
+'''
 import os
 import msvcrt
 from peliculas_funciones import *
