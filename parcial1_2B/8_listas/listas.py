@@ -9,6 +9,7 @@ Nota:sus valores si son modificables
 La lista ees una coleccion ordenada y modificable.
 Permite miembors duplicados.
 '''
+#
 # # #Ejemplo 1 crear una lista de numeros e imprimir el contenido
 # numeros=[23,34]
 # print("Contenido de la lista")

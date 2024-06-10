@@ -1,5 +1,5 @@
 #Los errores de ejecucion en un lenguaje de programacion se presentan cuando existe una anomalia o error dentro de la ejecucion del codigo lo cual provoca que se detenga la ejecucion del SW. Con el control y manejo de excepciones sera posible minimizar o evitar la interrupcion del programa debido a una excepcion.
-
+#.
 #EJEMPLO 1 CUANDO UNA VARIABLE NO SE GENERA
 # try:
 #  nombre=input("Introduce el nombre completo de una persona:")
