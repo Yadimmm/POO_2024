@@ -2,7 +2,7 @@ paises=["Mexico","USA","Brasil","Japon"]
 numeros=[23,100,3.1416,0.100]
 varios=["Hola",True,100,10.22]
 
-#ordenar la lista
+#ordenar la lista.
 
 print(paises)
 paises.sort()
