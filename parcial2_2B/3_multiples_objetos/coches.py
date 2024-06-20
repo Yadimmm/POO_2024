@@ -3,7 +3,7 @@
 
 CLASES .- es como un molde a traves del cual se puede instanciar un objeto dentro de las clases se definen los atributos (propiedades / caracteristicas) y los métodos (funciones o acciones)
 
-OBJETOS Y/O INSTANCIAS .- son parte de una clase los objetos o instacias pertenecen a una clase, es decir para interacturar con la clase o clases y hacer uso de los atributos y metodos es necesario crear un objeto o objetos.
+OBJETOS O INSTANCIAS .- son parte de una clase los objetos o instacias pertenecen a una clase, es decir para interacturar con la clase o clases y hacer uso de los atributos y metodos es necesario crear un objeto o objetos.
 """
 
 #Ejemplo 1 Crear una clase (un molde para crear mas objetos)llamada Coches y apartir de la clase crear objetos o instancias (coche) con caracteristicas similares
@@ -68,16 +68,21 @@ class Coches:
        return self.plazas
 
     def setPlazas(self,plazas):
-      self.plazas=plazas   
+      self.plazas=plazas 
+
+    def getInfo(self):
+       print(f"Marca: {self.getMarca()} {self.getColor()}, numeros de plazas: {self.getPlazas()} \nModelo: {self.getModelo()} con una velocidad de {self.getVelocidad()} Km/h y un potencia de {self.getCaballaje()} hp")
+ 
+
 
 #Fin definir clase
 
 #Crear un objetos o instanciar la clase
-
+print("Objeto 1")
 coche1=Coches()
 
 #Mostrar los valores inicales del objeto o instancia de la clase
-print(f"Marca: {coche1.marca} {coche1.color}, numeros de plazas: {coche1.plazas} \nModelo: {coche1.modelo} con una velocidad de {coche1.velocidad} Km/h y un potencia de {coche1.caballaje} hp")
+coche1.getInfo()
 
 #Utilizar los metodos set para cambiar o modificar los valores de los atributos aun cuando tengan un valor o no ... aunque los valores solo cambiaran para el objeto o instancia en cuestion en el momento que otro objeto se crea si se tienen valores iniciales se crea con los valores de los atributos de clase 
 
@@ -91,17 +96,21 @@ coche1.setPlazas(2)
 
 
 #Aunque con los atributos se puede mostrar un valor se recomienda que sea a traves de los getters
-print(f"Marca: {coche1.getMarca()} {coche1.getColor()}, numeros de plazas: {coche1.getPlazas()} \nModelo: {coche1.getModelo()} con una velocidad de {coche1.getVelocidad()} Km/h y un potencia de {coche1.getCaballaje()} hp")
+coche1.getInfo()
 
 
 #Crear otro objeto e imprimir los valores
-
+print("Objeto 2")
 coche2=Coches()
-
+coche2.setMarca("Lancer")
 #Imprimir los valores del otro objeto
-print(f"Marca: {coche2.getMarca()} {coche2.getColor()}, numeros de plazas: {coche2.getPlazas()} \nModelo: {coche2.getModelo()} con una velocidad de {coche2.getVelocidad()} Km/h y un potencia de {coche2.getCaballaje()} hp")
+coche2.getInfo()
 
 
+print("Objeto 3")
+coche3=Coches()
+coche3.setMarca("Chevy")
+coche3.getInfo()
 
 
 

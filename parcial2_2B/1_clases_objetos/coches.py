@@ -1,5 +1,5 @@
 """  
- Programación Orinetada a Objetos POO o OOP
+ Programación Orinetada a Objetos POO o OOP poo
 
 CLASES .- es como un molde a traves del cual se puede instanciar un objeto dentro de las clases se definen los atributos (propiedades / caracteristicas) y los métodos (funciones o acciones)
 

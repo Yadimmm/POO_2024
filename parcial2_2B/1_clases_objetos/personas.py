@@ -14,7 +14,7 @@ class Estudiante(Persona):
         self.carrera = carrera
     
     def informar_carrera(self):
-        print(f"Soy {self.nombre} y estudio la carrera de {self.carrera}.")
+        print(f"Soy {self.nombre} y estudio la carrera de: {self.carrera}.")
 
 #Instaciar objetos de la clase principal
 
