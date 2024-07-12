@@ -1,5 +1,5 @@
 class Usuarios:
-    def _init_(self,nombre,direccion,tel):
+    def __init__(self,nombre,direccion,tel):
         self.nombre=nombre
         self.direccion=direccion
         self.tel=tel
@@ -26,7 +26,7 @@ class Usuarios:
         self.tel=tel
 
 class Clientes(Usuarios):
-    def _init_(self,nombre,direccion,tel,num_cliente):
+    def __init__(self,nombre,direccion,tel,num_cliente):
         super()._init_(nombre,direccion,tel) 
         self.__num_cliente=num_cliente
 
