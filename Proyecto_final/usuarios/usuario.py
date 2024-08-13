@@ -70,31 +70,36 @@ class Cliente(Persona):
 
         registrar_cliente_window = tk.Tk()
         registrar_cliente_window.title("Registrar Nuevo Cliente")
+        registrar_cliente_window.attributes('-fullscreen', True)  # Pantalla completa
+        registrar_cliente_window.configure(bg="#f0f0f0")
 
-        tk.Label(registrar_cliente_window, text="Nombre").grid(row=0, column=0, padx=10, pady=10)
-        entry_nombre = tk.Entry(registrar_cliente_window)
-        entry_nombre.grid(row=0, column=1, padx=10, pady=10)
+        # Etiquetas y campos de entrada con fuente grande
+        tk.Label(registrar_cliente_window, text="Nombre", font=("Helvetica", 18), bg="#f0f0f0").grid(row=0, column=0, padx=10, pady=20)
+        entry_nombre = tk.Entry(registrar_cliente_window, font=("Helvetica", 18))
+        entry_nombre.grid(row=0, column=1, padx=10, pady=20)
 
-        tk.Label(registrar_cliente_window, text="Apellidos").grid(row=1, column=0, padx=10, pady=10)
-        entry_apellidos = tk.Entry(registrar_cliente_window)
-        entry_apellidos.grid(row=1, column=1, padx=10, pady=10)
+        tk.Label(registrar_cliente_window, text="Apellidos", font=("Helvetica", 18), bg="#f0f0f0").grid(row=1, column=0, padx=10, pady=20)
+        entry_apellidos = tk.Entry(registrar_cliente_window, font=("Helvetica", 18))
+        entry_apellidos.grid(row=1, column=1, padx=10, pady=20)
 
-        tk.Label(registrar_cliente_window, text="Fecha de Nacimiento (YYYY-MM-DD)").grid(row=2, column=0, padx=10, pady=10)
-        entry_fecha_nacimiento = tk.Entry(registrar_cliente_window)
-        entry_fecha_nacimiento.grid(row=2, column=1, padx=10, pady=10)
+        tk.Label(registrar_cliente_window, text="Fecha de Nacimiento (YYYY-MM-DD)", font=("Helvetica", 18), bg="#f0f0f0").grid(row=2, column=0, padx=10, pady=20)
+        entry_fecha_nacimiento = tk.Entry(registrar_cliente_window, font=("Helvetica", 18))
+        entry_fecha_nacimiento.grid(row=2, column=1, padx=10, pady=20)
 
-        tk.Label(registrar_cliente_window, text="Teléfono").grid(row=3, column=0, padx=10, pady=10)
-        entry_telefono = tk.Entry(registrar_cliente_window)
-        entry_telefono.grid(row=3, column=1, padx=10, pady=10)
+        tk.Label(registrar_cliente_window, text="Teléfono", font=("Helvetica", 18), bg="#f0f0f0").grid(row=3, column=0, padx=10, pady=20)
+        entry_telefono = tk.Entry(registrar_cliente_window, font=("Helvetica", 18))
+        entry_telefono.grid(row=3, column=1, padx=10, pady=20)
 
-        tk.Label(registrar_cliente_window, text="Correo Electrónico").grid(row=4, column=0, padx=10, pady=10)
-        entry_correo_electronico = tk.Entry(registrar_cliente_window)
-        entry_correo_electronico.grid(row=4, column=1, padx=10, pady=10)
+        tk.Label(registrar_cliente_window, text="Correo Electrónico", font=("Helvetica", 18), bg="#f0f0f0").grid(row=4, column=0, padx=10, pady=20)
+        entry_correo_electronico = tk.Entry(registrar_cliente_window, font=("Helvetica", 18))
+        entry_correo_electronico.grid(row=4, column=1, padx=10, pady=20)
 
-        tk.Button(registrar_cliente_window, text="Registrar", command=confirmar_registro).grid(row=5, columnspan=2, pady=10)
-        tk.Button(registrar_cliente_window, text="Regresar", command=regresar).grid(row=6, columnspan=2, pady=10)
+        # Botones con fuente grande
+        tk.Button(registrar_cliente_window, text="Registrar", command=confirmar_registro, font=("Helvetica", 18)).grid(row=5, columnspan=2, pady=20)
+        tk.Button(registrar_cliente_window, text="Regresar", command=regresar, font=("Helvetica", 18)).grid(row=6, columnspan=2, pady=20)
 
         registrar_cliente_window.mainloop()
+
 
 class Empleado(Persona):
     def __init__(self, id_empleado, nombre, apellidos, fecha_nacimiento, telefono, correo_electronico, password, especialidad):

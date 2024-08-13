@@ -9,7 +9,6 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-
 def menu_inicio_sesion():
     def iniciar_sesion():
         root.destroy()  # Cierra la ventana del menú principal
@@ -29,37 +28,44 @@ def menu_inicio_sesion():
     # Configuración de la ventana principal del menú
     root = tk.Tk()
     root.title("Sistema Gestión WAVE PARADISE")
+    root.attributes('-fullscreen', True)  # Configuración para pantalla completa
+    root.configure(bg="#f0f0f0")  # Color de fondo
 
-    # Etiquetas y botones del menú principal
-    tk.Label(root, text="....::::::Sistema Gestión WAVE PARADISE::::::....", font=("Helvetica", 14)).pack(pady=20)
+    # Etiquetas y botones del menú principal con fuente grande
+    tk.Label(root, text="....::::::Sistema Gestión WAVE PARADISE::::::....", font=("Helvetica", 24), bg="#f0f0f0").pack(pady=50)
 
-    tk.Button(root, text="Iniciar sesión como Empleado", command=iniciar_sesion, width=30).pack(pady=10)
-    tk.Button(root, text="Registrar nuevo Empleado", command=registrar_empleado_fn, width=30).pack(pady=10)
-    tk.Button(root, text="Registrar nuevo Cliente", command=registrar_cliente_fn, width=30).pack(pady=10)
-    tk.Button(root, text="Salir", command=salir, width=30).pack(pady=10)
+    tk.Button(root, text="Iniciar sesión como Empleado", command=iniciar_sesion, width=30, height=2, font=("Helvetica", 18)).pack(pady=20)
+    tk.Button(root, text="Registrar nuevo Empleado", command=registrar_empleado_fn, width=30, height=2, font=("Helvetica", 18)).pack(pady=20)
+    tk.Button(root, text="Registrar nuevo Cliente", command=registrar_cliente_fn, width=30, height=2, font=("Helvetica", 18)).pack(pady=20)
+    tk.Button(root, text="Salir", command=salir, width=30, height=2, font=("Helvetica", 18)).pack(pady=20)
 
     root.mainloop()
 
 def iniciar_sesion_empleado():
-    def verificar_credenciales():
-        id_empleado = entry_id.get()
-        correo_electronico = entry_email.get()
-        password = entry_password.get()
+   def verificar_credenciales():
+    id_empleado = entry_id.get()
+    correo_electronico = entry_email.get()
+    password = entry_password.get()
 
-        conexion = obtener_conexion()
-        cursor = conexion.cursor(dictionary=True)
+    conexion = obtener_conexion()
+    if conexion is None:
+        messagebox.showerror("Error", "No se pudo conectar a la base de datos.")
+        return
+
+        try:
+            cursor = conexion.cursor(dictionary=True)
         
-        consulta = """
-        SELECT p.id_persona, p.nombre, p.apellidos, p.telefono, p.correo_electronico, e.especialidad, e.password
-        FROM Persona p
-        JOIN Empleado e ON p.id_persona = e.id_empleado
-        WHERE e.id_empleado = %s AND p.correo_electronico = %s AND e.password = %s
-        """
-        cursor.execute(consulta, (id_empleado, correo_electronico, password))
-        empleado_data = cursor.fetchone()
+            consulta = """
+            SELECT p.id_persona, p.nombre, p.apellidos, p.telefono, p.correo_electronico, e.especialidad, e.password
+            FROM Persona p
+            JOIN Empleado e ON p.id_persona = e.id_empleado
+            WHERE e.id_empleado = %s AND p.correo_electronico = %s AND e.password = %s
+            """
+            cursor.execute(consulta, (id_empleado, correo_electronico, password))
+            empleado_data = cursor.fetchone()
 
-        if empleado_data:
-            empleado = Empleado(
+            if empleado_data:
+                empleado = Empleado(
                 empleado_data['id_persona'], 
                 empleado_data['nombre'], 
                 empleado_data['apellidos'], 
@@ -69,14 +75,19 @@ def iniciar_sesion_empleado():
                 empleado_data['password'], 
                 empleado_data['especialidad']
             )
-            messagebox.showinfo("Éxito", f"Bienvenido {empleado.nombre} {empleado.apellidos}")
-            root.destroy()  # Cierra la ventana de inicio de sesión
-            menu_gestion_reservas(empleado)  # Acceso al menú CRUD
-        else:
-            messagebox.showerror("Error", "ID, correo electrónico o contraseña incorrectos.")
+                messagebox.showinfo("Éxito", f"Bienvenido {empleado.nombre} {empleado.apellidos}")
+                root.destroy()  # Cierra la ventana de inicio de sesión
+                menu_gestion_reservas(empleado)  # Acceso al menú CRUD
+            else:
+                messagebox.showerror("Error", "ID, correo electrónico o contraseña incorrectos.")
         
-        cursor.close()
-        conexion.close()
+            cursor.close()
+            conexion.close()
+        except Error as e:
+            messagebox.showerror("Error", f"Error al realizar la consulta: {e}")
+            if conexion.is_connected():
+                conexion.close()
+
 
     def regresar():
         root.destroy()
@@ -85,26 +96,31 @@ def iniciar_sesion_empleado():
     # Configuración de la ventana de inicio de sesión
     root = tk.Tk()
     root.title("Inicio de Sesión - Empleado")
+    root.attributes('-fullscreen', True)  # Pantalla completa
+    root.configure(bg="#f0f0f0")
 
-    # Etiquetas y campos de entrada
-    tk.Label(root, text="ID de Empleado").grid(row=0, column=0, padx=10, pady=10)
-    entry_id = tk.Entry(root)
-    entry_id.grid(row=0, column=1, padx=10, pady=10)
+    # Crear un frame para contener los widgets centrados
+    frame = tk.Frame(root, bg="#f0f0f0")
+    frame.place(relx=0.5, rely=0.5, anchor="center")
 
-    tk.Label(root, text="Correo Electrónico").grid(row=1, column=0, padx=10, pady=10)
-    entry_email = tk.Entry(root)
-    entry_email.grid(row=1, column=1, padx=10, pady=10)
+    # Etiquetas y campos de entrada con fuente grande
+    tk.Label(frame, text="ID de Empleado", font=("Helvetica", 18), bg="#f0f0f0").grid(row=0, column=0, padx=10, pady=20)
+    entry_id = tk.Entry(frame, font=("Helvetica", 18))
+    entry_id.grid(row=0, column=1, padx=10, pady=20)
 
-    tk.Label(root, text="Contraseña").grid(row=2, column=0, padx=10, pady=10)
-    entry_password = tk.Entry(root, show="*")
-    entry_password.grid(row=2, column=1, padx=10, pady=10)
+    tk.Label(frame, text="Correo Electrónico", font=("Helvetica", 18), bg="#f0f0f0").grid(row=1, column=0, padx=10, pady=20)
+    entry_email = tk.Entry(frame, font=("Helvetica", 18))
+    entry_email.grid(row=1, column=1, padx=10, pady=20)
+
+    tk.Label(frame, text="Contraseña", font=("Helvetica", 18), bg="#f0f0f0").grid(row=2, column=0, padx=10, pady=20)
+    entry_password = tk.Entry(frame, show="*", font=("Helvetica", 18))
+    entry_password.grid(row=2, column=1, padx=10, pady=20)
 
     # Botón de inicio de sesión
-    tk.Button(root, text="Iniciar Sesión", command=verificar_credenciales).grid(row=3, columnspan=2, padx=10, pady=10)
-    tk.Button(root, text="Regresar", command=regresar).grid(row=4, columnspan=2, padx=10, pady=10)
+    tk.Button(frame, text="Iniciar Sesión", command=verificar_credenciales, font=("Helvetica", 18)).grid(row=3, columnspan=2, padx=10, pady=20)
+    tk.Button(frame, text="Regresar", command=regresar, font=("Helvetica", 18)).grid(row=4, columnspan=2, padx=10, pady=20)
 
     root.mainloop()
-
 def registrar_empleado():
     def confirmar_registro():
         nombre = entry_nombre.get()
@@ -115,7 +131,7 @@ def registrar_empleado():
         password = entry_password.get()
         especialidad = entry_especialidad.get()
 
-        conexion = obtener_conexion()  # Asegúrate de que esta función esté definida en tu código
+        conexion = obtener_conexion()
         cursor = conexion.cursor()
         
         consulta_persona = """INSERT INTO Persona (nombre, apellidos, fecha_nacimiento, telefono, correo_electronico) 
@@ -143,39 +159,41 @@ def registrar_empleado():
     # Configuración de la ventana de registro de empleado
     registrar_empleado_window = tk.Tk()
     registrar_empleado_window.title("Registrar Nuevo Empleado")
+    registrar_empleado_window.attributes('-fullscreen', True)  # Pantalla completa
+    registrar_empleado_window.configure(bg="#f0f0f0")
 
-    # Etiquetas y campos de entrada
-    tk.Label(registrar_empleado_window, text="Nombre").grid(row=0, column=0, padx=10, pady=10)
-    entry_nombre = tk.Entry(registrar_empleado_window)
-    entry_nombre.grid(row=0, column=1, padx=10, pady=10)
+    # Etiquetas y campos de entrada con fuente grande
+    tk.Label(registrar_empleado_window, text="Nombre", font=("Helvetica", 18), bg="#f0f0f0").grid(row=0, column=0, padx=10, pady=20)
+    entry_nombre = tk.Entry(registrar_empleado_window, font=("Helvetica", 18))
+    entry_nombre.grid(row=0, column=1, padx=10, pady=20)
 
-    tk.Label(registrar_empleado_window, text="Apellidos").grid(row=1, column=0, padx=10, pady=10)
-    entry_apellidos = tk.Entry(registrar_empleado_window)
-    entry_apellidos.grid(row=1, column=1, padx=10, pady=10)
+    tk.Label(registrar_empleado_window, text="Apellidos", font=("Helvetica", 18), bg="#f0f0f0").grid(row=1, column=0, padx=10, pady=20)
+    entry_apellidos = tk.Entry(registrar_empleado_window, font=("Helvetica", 18))
+    entry_apellidos.grid(row=1, column=1, padx=10, pady=20)
 
-    tk.Label(registrar_empleado_window, text="Fecha de Nacimiento (YYYY-MM-DD)").grid(row=2, column=0, padx=10, pady=10)
-    entry_fecha_nacimiento = tk.Entry(registrar_empleado_window)
-    entry_fecha_nacimiento.grid(row=2, column=1, padx=10, pady=10)
+    tk.Label(registrar_empleado_window, text="Fecha de Nacimiento (YYYY-MM-DD)", font=("Helvetica", 18), bg="#f0f0f0").grid(row=2, column=0, padx=10, pady=20)
+    entry_fecha_nacimiento = tk.Entry(registrar_empleado_window, font=("Helvetica", 18))
+    entry_fecha_nacimiento.grid(row=2, column=1, padx=10, pady=20)
 
-    tk.Label(registrar_empleado_window, text="Teléfono").grid(row=3, column=0, padx=10, pady=10)
-    entry_telefono = tk.Entry(registrar_empleado_window)
-    entry_telefono.grid(row=3, column=1, padx=10, pady=10)
+    tk.Label(registrar_empleado_window, text="Teléfono", font=("Helvetica", 18), bg="#f0f0f0").grid(row=3, column=0, padx=10, pady=20)
+    entry_telefono = tk.Entry(registrar_empleado_window, font=("Helvetica", 18))
+    entry_telefono.grid(row=3, column=1, padx=10, pady=20)
 
-    tk.Label(registrar_empleado_window, text="Correo Electrónico").grid(row=4, column=0, padx=10, pady=10)
-    entry_correo_electronico = tk.Entry(registrar_empleado_window)
-    entry_correo_electronico.grid(row=4, column=1, padx=10, pady=10)
+    tk.Label(registrar_empleado_window, text="Correo Electrónico", font=("Helvetica", 18), bg="#f0f0f0").grid(row=4, column=0, padx=10, pady=20)
+    entry_correo_electronico = tk.Entry(registrar_empleado_window, font=("Helvetica", 18))
+    entry_correo_electronico.grid(row=4, column=1, padx=10, pady=20)
 
-    tk.Label(registrar_empleado_window, text="Contraseña").grid(row=5, column=0, padx=10, pady=10)
-    entry_password = tk.Entry(registrar_empleado_window, show="*")
-    entry_password.grid(row=5, column=1, padx=10, pady=10)
+    tk.Label(registrar_empleado_window, text="Contraseña", font=("Helvetica", 18), bg="#f0f0f0").grid(row=5, column=0, padx=10, pady=20)
+    entry_password = tk.Entry(registrar_empleado_window, show="*", font=("Helvetica", 18))
+    entry_password.grid(row=5, column=1, padx=10, pady=20)
 
-    tk.Label(registrar_empleado_window, text="Especialidad").grid(row=6, column=0, padx=10, pady=10)
-    entry_especialidad = tk.Entry(registrar_empleado_window)
-    entry_especialidad.grid(row=6, column=1, padx=10, pady=10)
+    tk.Label(registrar_empleado_window, text="Especialidad", font=("Helvetica", 18), bg="#f0f0f0").grid(row=6, column=0, padx=10, pady=20)
+    entry_especialidad = tk.Entry(registrar_empleado_window, font=("Helvetica", 18))
+    entry_especialidad.grid(row=6, column=1, padx=10, pady=20)
 
     # Botón para confirmar el registro
-    tk.Button(registrar_empleado_window, text="Registrar", command=confirmar_registro).grid(row=7, columnspan=2, pady=10)
-    tk.Button(registrar_empleado_window, text="Regresar", command=regresar).grid(row=8, columnspan=2, pady=10)
+    tk.Button(registrar_empleado_window, text="Registrar", command=confirmar_registro, font=("Helvetica", 18)).grid(row=7, columnspan=2, pady=20)
+    tk.Button(registrar_empleado_window, text="Regresar", command=regresar, font=("Helvetica", 18)).grid(row=8, columnspan=2, pady=20)
 
     registrar_empleado_window.mainloop()
 
@@ -186,13 +204,15 @@ def menu_gestion_reservas(empleado):
 
     menu = tk.Tk()
     menu.title(f"Gestión de Reservas - Bienvenido {empleado.nombre} {empleado.apellidos}")
+    menu.attributes('-fullscreen', True)  # Pantalla completa
+    menu.configure(bg="#f0f0f0")
 
-    # Botones del menú CRUD
-    tk.Button(menu, text="Crear Reserva", command=lambda: crear_reserva(empleado)).pack(pady=10)
-    tk.Button(menu, text="Leer Reservas", command=leer_reservas).pack(pady=10)
-    tk.Button(menu, text="Actualizar Reserva", command=actualizar_reserva).pack(pady=10)
-    tk.Button(menu, text="Eliminar Reserva", command=eliminar_reserva).pack(pady=10)
-    tk.Button(menu, text="Salir", command=regresar).pack(pady=10)
+    # Botones del menú CRUD con fuente grande
+    tk.Button(menu, text="Crear Reserva", command=lambda: crear_reserva(empleado), width=30, height=2, font=("Helvetica", 18)).pack(pady=20)
+    tk.Button(menu, text="Leer Reservas", command=leer_reservas, width=30, height=2, font=("Helvetica", 18)).pack(pady=20)
+    tk.Button(menu, text="Actualizar Reserva", command=actualizar_reserva, width=30, height=2, font=("Helvetica", 18)).pack(pady=20)
+    tk.Button(menu, text="Eliminar Reserva", command=eliminar_reserva, width=30, height=2, font=("Helvetica", 18)).pack(pady=20)
+    tk.Button(menu, text="Salir", command=regresar, width=30, height=2, font=("Helvetica", 18)).pack(pady=20)
 
     menu.mainloop()
 
@@ -256,25 +276,29 @@ def crear_reserva(empleado):
 
     crear_reserva_window = tk.Tk()
     crear_reserva_window.title("Crear Nueva Reserva")
+    crear_reserva_window.attributes('-fullscreen', True)  # Pantalla completa
+    crear_reserva_window.configure(bg="#f0f0f0")
 
-    tk.Label(crear_reserva_window, text="ID Cliente").grid(row=0, column=0, padx=10, pady=10)
-    entry_id_cliente = tk.Entry(crear_reserva_window)
-    entry_id_cliente.grid(row=0, column=1, padx=10, pady=10)
+    # Etiquetas y campos de entrada con fuente grande
+    tk.Label(crear_reserva_window, text="ID Cliente", font=("Helvetica", 18), bg="#f0f0f0").grid(row=0, column=0, padx=10, pady=20)
+    entry_id_cliente = tk.Entry(crear_reserva_window, font=("Helvetica", 18))
+    entry_id_cliente.grid(row=0, column=1, padx=10, pady=20)
 
-    tk.Label(crear_reserva_window, text="ID Servicio").grid(row=1, column=0, padx=10, pady=10)
-    entry_id_servicio = tk.Entry(crear_reserva_window)
-    entry_id_servicio.grid(row=1, column=1, padx=10, pady=10)
+    tk.Label(crear_reserva_window, text="ID Servicio", font=("Helvetica", 18), bg="#f0f0f0").grid(row=1, column=0, padx=10, pady=20)
+    entry_id_servicio = tk.Entry(crear_reserva_window, font=("Helvetica", 18))
+    entry_id_servicio.grid(row=1, column=1, padx=10, pady=20)
 
-    tk.Label(crear_reserva_window, text="Fecha (YYYY-MM-DD)").grid(row=2, column=0, padx=10, pady=10)
-    entry_fecha = tk.Entry(crear_reserva_window)
-    entry_fecha.grid(row=2, column=1, padx=10, pady=10)
+    tk.Label(crear_reserva_window, text="Fecha (YYYY-MM-DD)", font=("Helvetica", 18), bg="#f0f0f0").grid(row=2, column=0, padx=10, pady=20)
+    entry_fecha = tk.Entry(crear_reserva_window, font=("Helvetica", 18))
+    entry_fecha.grid(row=2, column=1, padx=10, pady=20)
 
-    tk.Label(crear_reserva_window, text="Hora (HH:MM)").grid(row=3, column=0, padx=10, pady=10)
-    entry_hora = tk.Entry(crear_reserva_window)
-    entry_hora.grid(row=3, column=1, padx=10, pady=10)
+    tk.Label(crear_reserva_window, text="Hora (HH:MM)", font=("Helvetica", 18), bg="#f0f0f0").grid(row=3, column=0, padx=10, pady=20)
+    entry_hora = tk.Entry(crear_reserva_window, font=("Helvetica", 18))
+    entry_hora.grid(row=3, column=1, padx=10, pady=20)
 
-    tk.Button(crear_reserva_window, text="Confirmar", command=confirmar_creacion).grid(row=4, columnspan=2, pady=10)
-    tk.Button(crear_reserva_window, text="Regresar", command=regresar).grid(row=5, columnspan=2, pady=10)
+    # Botón para confirmar la creación de la reserva
+    tk.Button(crear_reserva_window, text="Confirmar", command=confirmar_creacion, font=("Helvetica", 18)).grid(row=4, columnspan=2, pady=20)
+    tk.Button(crear_reserva_window, text="Regresar", command=regresar, font=("Helvetica", 18)).grid(row=5, columnspan=2, pady=20)
 
     crear_reserva_window.mainloop()
 
@@ -317,14 +341,16 @@ def leer_reservas():
     # Configuración de la ventana para mostrar las reservas
     leer_reservas_window = tk.Tk()
     leer_reservas_window.title("Consultar Reservas")
+    leer_reservas_window.attributes('-fullscreen', True)  # Pantalla completa
+    leer_reservas_window.configure(bg="#f0f0f0")
 
-    # Crear un cuadro de texto para mostrar las reservas
-    texto_reservas = tk.Text(leer_reservas_window, height=20, width=80)
+    # Crear un cuadro de texto para mostrar las reservas con fuente grande
+    texto_reservas = tk.Text(leer_reservas_window, height=20, width=80, font=("Helvetica", 18))
     texto_reservas.pack(pady=20)
 
     # Botón para cerrar la ventana
-    tk.Button(leer_reservas_window, text="Cerrar", command=leer_reservas_window.destroy).pack(pady=10)
-    tk.Button(leer_reservas_window, text="Regresar", command=regresar).pack(pady=10)
+    tk.Button(leer_reservas_window, text="Cerrar", command=leer_reservas_window.destroy, font=("Helvetica", 18)).pack(pady=20)
+    tk.Button(leer_reservas_window, text="Regresar", command=regresar, font=("Helvetica", 18)).pack(pady=20)
 
     mostrar_reservas()  # Llamar a la función para mostrar las reservas
 
@@ -413,37 +439,39 @@ def actualizar_reserva():
     # Configuración de la ventana para actualizar la reserva
     actualizar_reserva_window = tk.Tk()
     actualizar_reserva_window.title("Actualizar Reserva")
+    actualizar_reserva_window.attributes('-fullscreen', True)  # Pantalla completa
+    actualizar_reserva_window.configure(bg="#f0f0f0")
 
-    # Etiquetas y campos de entrada
-    tk.Label(actualizar_reserva_window, text="ID de la Reserva").grid(row=0, column=0, padx=10, pady=10)
-    entry_id_reserva = tk.Entry(actualizar_reserva_window)
-    entry_id_reserva.grid(row=0, column=1, padx=10, pady=10)
+    # Etiquetas y campos de entrada con fuente grande
+    tk.Label(actualizar_reserva_window, text="ID de la Reserva", font=("Helvetica", 18), bg="#f0f0f0").grid(row=0, column=0, padx=10, pady=20)
+    entry_id_reserva = tk.Entry(actualizar_reserva_window, font=("Helvetica", 18))
+    entry_id_reserva.grid(row=0, column=1, padx=10, pady=20)
 
-    tk.Button(actualizar_reserva_window, text="Buscar", command=buscar_reserva).grid(row=0, column=2, padx=10, pady=10)
+    tk.Button(actualizar_reserva_window, text="Buscar", command=buscar_reserva, font=("Helvetica", 18)).grid(row=0, column=2, padx=10, pady=20)
 
-    tk.Label(actualizar_reserva_window, text="Cliente ID").grid(row=1, column=0, padx=10, pady=10)
-    entry_cliente_id = tk.Entry(actualizar_reserva_window)
-    entry_cliente_id.grid(row=1, column=1, padx=10, pady=10)
+    tk.Label(actualizar_reserva_window, text="Cliente ID", font=("Helvetica", 18), bg="#f0f0f0").grid(row=1, column=0, padx=10, pady=20)
+    entry_cliente_id = tk.Entry(actualizar_reserva_window, font=("Helvetica", 18))
+    entry_cliente_id.grid(row=1, column=1, padx=10, pady=20)
 
-    tk.Label(actualizar_reserva_window, text="Servicio ID").grid(row=2, column=0, padx=10, pady=10)
-    entry_servicio_id = tk.Entry(actualizar_reserva_window)
-    entry_servicio_id.grid(row=2, column=1, padx=10, pady=10)
+    tk.Label(actualizar_reserva_window, text="Servicio ID", font=("Helvetica", 18), bg="#f0f0f0").grid(row=2, column=0, padx=10, pady=20)
+    entry_servicio_id = tk.Entry(actualizar_reserva_window, font=("Helvetica", 18))
+    entry_servicio_id.grid(row=2, column=1, padx=10, pady=20)
 
-    tk.Label(actualizar_reserva_window, text="Servicio Nombre").grid(row=3, column=0, padx=10, pady=10)
-    entry_servicio_nombre = tk.Entry(actualizar_reserva_window, state='readonly')
-    entry_servicio_nombre.grid(row=3, column=1, padx=10, pady=10)
+    tk.Label(actualizar_reserva_window, text="Servicio Nombre", font=("Helvetica", 18), bg="#f0f0f0").grid(row=3, column=0, padx=10, pady=20)
+    entry_servicio_nombre = tk.Entry(actualizar_reserva_window, state='readonly', font=("Helvetica", 18))
+    entry_servicio_nombre.grid(row=3, column=1, padx=10, pady=20)
 
-    tk.Label(actualizar_reserva_window, text="Fecha (YYYY-MM-DD)").grid(row=4, column=0, padx=10, pady=10)
-    entry_fecha = tk.Entry(actualizar_reserva_window)
-    entry_fecha.grid(row=4, column=1, padx=10, pady=10)
+    tk.Label(actualizar_reserva_window, text="Fecha (YYYY-MM-DD)", font=("Helvetica", 18), bg="#f0f0f0").grid(row=4, column=0, padx=10, pady=20)
+    entry_fecha = tk.Entry(actualizar_reserva_window, font=("Helvetica", 18))
+    entry_fecha.grid(row=4, column=1, padx=10, pady=20)
 
-    tk.Label(actualizar_reserva_window, text="Hora (HH:MM)").grid(row=5, column=0, padx=10, pady=10)
-    entry_hora = tk.Entry(actualizar_reserva_window)
-    entry_hora.grid(row=5, column=1, padx=10, pady=10)
+    tk.Label(actualizar_reserva_window, text="Hora (HH:MM)", font=("Helvetica", 18), bg="#f0f0f0").grid(row=5, column=0, padx=10, pady=20)
+    entry_hora = tk.Entry(actualizar_reserva_window, font=("Helvetica", 18))
+    entry_hora.grid(row=5, column=1, padx=10, pady=20)
 
     # Botón para confirmar la actualización
-    tk.Button(actualizar_reserva_window, text="Actualizar", command=confirmar_actualizacion).grid(row=6, columnspan=2, pady=20)
-    tk.Button(actualizar_reserva_window, text="Regresar", command=regresar).grid(row=7, columnspan=2, pady=10)
+    tk.Button(actualizar_reserva_window, text="Actualizar", command=confirmar_actualizacion, font=("Helvetica", 18)).grid(row=6, columnspan=2, pady=20)
+    tk.Button(actualizar_reserva_window, text="Regresar", command=regresar, font=("Helvetica", 18)).grid(row=7, columnspan=2, pady=20)
 
     actualizar_reserva_window.mainloop()
 
@@ -452,7 +480,7 @@ def eliminar_reserva():
         id_reserva = entry_id_reserva.get()
         print(f"Buscando la reserva con ID: {id_reserva}")
         
-        conexion = obtener_conexion()  # Asegúrate de que esta función esté definida en tu código
+        conexion = obtener_conexion()
         cursor = conexion.cursor(dictionary=True)
         consulta = """
         SELECT r.id_reserva, r.id_cliente, r.fecha, r.hora, p.nombre AS cliente, p.correo_electronico, s.nombre AS servicio_nombre
@@ -534,37 +562,39 @@ def eliminar_reserva():
     # Configuración de la ventana para eliminar la reserva
     eliminar_reserva_window = tk.Tk()
     eliminar_reserva_window.title("Eliminar Reserva")
+    eliminar_reserva_window.attributes('-fullscreen', True)  # Pantalla completa
+    eliminar_reserva_window.configure(bg="#f0f0f0")
 
-    # Etiquetas y campos de entrada
-    tk.Label(eliminar_reserva_window, text="ID de la Reserva").grid(row=0, column=0, padx=10, pady=10)
-    entry_id_reserva = tk.Entry(eliminar_reserva_window)
-    entry_id_reserva.grid(row=0, column=1, padx=10, pady=10)
+    # Etiquetas y campos de entrada con fuente grande
+    tk.Label(eliminar_reserva_window, text="ID de la Reserva", font=("Helvetica", 18), bg="#f0f0f0").grid(row=0, column=0, padx=10, pady=20)
+    entry_id_reserva = tk.Entry(eliminar_reserva_window, font=("Helvetica", 18))
+    entry_id_reserva.grid(row=0, column=1, padx=10, pady=20)
 
-    tk.Button(eliminar_reserva_window, text="Buscar", command=buscar_reserva).grid(row=0, column=2, padx=10, pady=10)
+    tk.Button(eliminar_reserva_window, text="Buscar", command=buscar_reserva, font=("Helvetica", 18)).grid(row=0, column=2, padx=10, pady=20)
 
-    tk.Label(eliminar_reserva_window, text="Cliente Nombre").grid(row=1, column=0, padx=10, pady=10)
-    entry_cliente_nombre = tk.Entry(eliminar_reserva_window, state='readonly')
-    entry_cliente_nombre.grid(row=1, column=1, padx=10, pady=10)
+    tk.Label(eliminar_reserva_window, text="Cliente Nombre", font=("Helvetica", 18), bg="#f0f0f0").grid(row=1, column=0, padx=10, pady=20)
+    entry_cliente_nombre = tk.Entry(eliminar_reserva_window, state='readonly', font=("Helvetica", 18))
+    entry_cliente_nombre.grid(row=1, column=1, padx=10, pady=20)
 
-    tk.Label(eliminar_reserva_window, text="Correo Electrónico del Cliente").grid(row=2, column=0, padx=10, pady=10)
-    entry_correo_cliente = tk.Entry(eliminar_reserva_window, state='readonly')
-    entry_correo_cliente.grid(row=2, column=1, padx=10, pady=10)
+    tk.Label(eliminar_reserva_window, text="Correo Electrónico del Cliente", font=("Helvetica", 18), bg="#f0f0f0").grid(row=2, column=0, padx=10, pady=20)
+    entry_correo_cliente = tk.Entry(eliminar_reserva_window, state='readonly', font=("Helvetica", 18))
+    entry_correo_cliente.grid(row=2, column=1, padx=10, pady=20)
 
-    tk.Label(eliminar_reserva_window, text="Servicio Nombre").grid(row=3, column=0, padx=10, pady=10)
-    entry_servicio_nombre = tk.Entry(eliminar_reserva_window, state='readonly')
-    entry_servicio_nombre.grid(row=3, column=1, padx=10, pady=10)
+    tk.Label(eliminar_reserva_window, text="Servicio Nombre", font=("Helvetica", 18), bg="#f0f0f0").grid(row=3, column=0, padx=10, pady=20)
+    entry_servicio_nombre = tk.Entry(eliminar_reserva_window, state='readonly', font=("Helvetica", 18))
+    entry_servicio_nombre.grid(row=3, column=1, padx=10, pady=20)
 
-    tk.Label(eliminar_reserva_window, text="Fecha (YYYY-MM-DD)").grid(row=4, column=0, padx=10, pady=10)
-    entry_fecha = tk.Entry(eliminar_reserva_window, state='readonly')
-    entry_fecha.grid(row=4, column=1, padx=10, pady=10)
+    tk.Label(eliminar_reserva_window, text="Fecha (YYYY-MM-DD)", font=("Helvetica", 18), bg="#f0f0f0").grid(row=4, column=0, padx=10, pady=20)
+    entry_fecha = tk.Entry(eliminar_reserva_window, state='readonly', font=("Helvetica", 18))
+    entry_fecha.grid(row=4, column=1, padx=10, pady=20)
 
-    tk.Label(eliminar_reserva_window, text="Hora (HH:MM:SS)").grid(row=5, column=0, padx=10, pady=10)
-    entry_hora = tk.Entry(eliminar_reserva_window, state='readonly')
-    entry_hora.grid(row=5, column=1, padx=10, pady=10)
+    tk.Label(eliminar_reserva_window, text="Hora (HH:MM:SS)", font=("Helvetica", 18), bg="#f0f0f0").grid(row=5, column=0, padx=10, pady=20)
+    entry_hora = tk.Entry(eliminar_reserva_window, state='readonly', font=("Helvetica", 18))
+    entry_hora.grid(row=5, column=1, padx=10, pady=20)
 
     # Botón para confirmar la eliminación
-    tk.Button(eliminar_reserva_window, text="Eliminar", command=confirmar_eliminacion).grid(row=6, columnspan=2, pady=20)
-    tk.Button(eliminar_reserva_window, text="Regresar", command=regresar).grid(row=7, columnspan=2, pady=10)
+    tk.Button(eliminar_reserva_window, text="Eliminar", command=confirmar_eliminacion, font=("Helvetica", 18)).grid(row=6, columnspan=2, pady=20)
+    tk.Button(eliminar_reserva_window, text="Regresar", command=regresar, font=("Helvetica", 18)).grid(row=7, columnspan=2, pady=20)
 
     eliminar_reserva_window.mainloop()
 
