@@ -51,9 +51,10 @@ def menu_inicio_sesion():
 
     root = tk.Tk()
     root.title("Sistema Gestión WAVE PARADISE")
-    root.state('zoomed') 
+    root.state('zoomed')  # Configuración para pantalla maximizada
     root.configure(bg="#f0f0f0")
 
+    # Header para maximizar, minimizar y cerrar
     root.option_add("*tearOff", False)
     menu_bar = tk.Menu(root)
     file_menu = tk.Menu(menu_bar)
@@ -106,8 +107,8 @@ def iniciar_sesion_empleado():
 
         if empleado:
             messagebox.showinfo("Éxito", f"Bienvenido {empleado['nombre']} {empleado['apellidos']}")
-            root.destroy() 
-            menu_gestion_reservas(empleado) 
+            root.destroy()  # Cierra la ventana de inicio de sesión
+            menu_gestion_reservas(empleado)  # Dirige al menú de gestión de reservas
         else:
             messagebox.showerror("Error", "Credenciales incorrectas.")
 
