@@ -70,33 +70,43 @@ class Cliente(Persona):
 
         registrar_cliente_window = tk.Tk()
         registrar_cliente_window.title("Registrar Nuevo Cliente")
-        registrar_cliente_window.attributes('-fullscreen', True)  # Pantalla completa
+        registrar_cliente_window.state('zoomed')
         registrar_cliente_window.configure(bg="#f0f0f0")
 
-        # Etiquetas y campos de entrada con fuente grande
-        tk.Label(registrar_cliente_window, text="Nombre", font=("Helvetica", 18), bg="#f0f0f0").grid(row=0, column=0, padx=10, pady=20)
-        entry_nombre = tk.Entry(registrar_cliente_window, font=("Helvetica", 18))
+        registrar_cliente_window.option_add("*tearOff", False)
+        menu_bar = tk.Menu(registrar_cliente_window)
+        file_menu = tk.Menu(menu_bar)
+        file_menu.add_command(label="Minimizar", command=lambda: registrar_cliente_window.iconify())
+        file_menu.add_command(label="Maximizar", command=lambda: registrar_cliente_window.state('zoomed'))
+        file_menu.add_command(label="Salir", command=lambda: registrar_cliente_window.destroy())
+        menu_bar.add_cascade(label="Opciones", menu=file_menu)
+        registrar_cliente_window.config(menu=menu_bar)
+
+        frame = tk.Frame(registrar_cliente_window, bg="#f0f0f0")
+        frame.place(relx=0.5, rely=0.5, anchor="center")
+
+        tk.Label(frame, text="Nombre", font=("Helvetica", 18), bg="#f0f0f0").grid(row=0, column=0, padx=10, pady=20)
+        entry_nombre = tk.Entry(frame, font=("Helvetica", 18))
         entry_nombre.grid(row=0, column=1, padx=10, pady=20)
 
-        tk.Label(registrar_cliente_window, text="Apellidos", font=("Helvetica", 18), bg="#f0f0f0").grid(row=1, column=0, padx=10, pady=20)
-        entry_apellidos = tk.Entry(registrar_cliente_window, font=("Helvetica", 18))
+        tk.Label(frame, text="Apellidos", font=("Helvetica", 18), bg="#f0f0f0").grid(row=1, column=0, padx=10, pady=20)
+        entry_apellidos = tk.Entry(frame, font=("Helvetica", 18))
         entry_apellidos.grid(row=1, column=1, padx=10, pady=20)
 
-        tk.Label(registrar_cliente_window, text="Fecha de Nacimiento (YYYY-MM-DD)", font=("Helvetica", 18), bg="#f0f0f0").grid(row=2, column=0, padx=10, pady=20)
-        entry_fecha_nacimiento = tk.Entry(registrar_cliente_window, font=("Helvetica", 18))
+        tk.Label(frame, text="Fecha de Nacimiento (YYYY-MM-DD)", font=("Helvetica", 18), bg="#f0f0f0").grid(row=2, column=0, padx=10, pady=20)
+        entry_fecha_nacimiento = tk.Entry(frame, font=("Helvetica", 18))
         entry_fecha_nacimiento.grid(row=2, column=1, padx=10, pady=20)
 
-        tk.Label(registrar_cliente_window, text="Teléfono", font=("Helvetica", 18), bg="#f0f0f0").grid(row=3, column=0, padx=10, pady=20)
-        entry_telefono = tk.Entry(registrar_cliente_window, font=("Helvetica", 18))
+        tk.Label(frame, text="Teléfono", font=("Helvetica", 18), bg="#f0f0f0").grid(row=3, column=0, padx=10, pady=20)
+        entry_telefono = tk.Entry(frame, font=("Helvetica", 18))
         entry_telefono.grid(row=3, column=1, padx=10, pady=20)
 
-        tk.Label(registrar_cliente_window, text="Correo Electrónico", font=("Helvetica", 18), bg="#f0f0f0").grid(row=4, column=0, padx=10, pady=20)
-        entry_correo_electronico = tk.Entry(registrar_cliente_window, font=("Helvetica", 18))
+        tk.Label(frame, text="Correo Electrónico", font=("Helvetica", 18), bg="#f0f0f0").grid(row=4, column=0, padx=10, pady=20)
+        entry_correo_electronico = tk.Entry(frame, font=("Helvetica", 18))
         entry_correo_electronico.grid(row=4, column=1, padx=10, pady=20)
 
-        # Botones con fuente grande
-        tk.Button(registrar_cliente_window, text="Registrar", command=confirmar_registro, font=("Helvetica", 18)).grid(row=5, columnspan=2, pady=20)
-        tk.Button(registrar_cliente_window, text="Regresar", command=regresar, font=("Helvetica", 18)).grid(row=6, columnspan=2, pady=20)
+        tk.Button(frame, text="Registrar", command=confirmar_registro, font=("Helvetica", 18)).grid(row=5, columnspan=2, pady=20)
+        tk.Button(frame, text="Regresar", command=regresar, font=("Helvetica", 18)).grid(row=6, columnspan=2, pady=20)
 
         registrar_cliente_window.mainloop()
 
@@ -108,12 +118,6 @@ class Empleado(Persona):
         self.especialidad = especialidad
 
     def actualizar_disponibilidad(self, dias_disponibles, hora_inicio, hora_fin):
-        """
-        Actualiza la disponibilidad del empleado en la base de datos.
-        :param dias_disponibles: Lista de días en los que el empleado está disponible, por ejemplo: ['Lunes', 'Martes']
-        :param hora_inicio: Hora de inicio de disponibilidad en formato 'HH:MM'
-        :param hora_fin: Hora de fin de disponibilidad en formato 'HH:MM'
-        """
         try:
             conexion = mysql.connector.connect(
                 host='localhost',
